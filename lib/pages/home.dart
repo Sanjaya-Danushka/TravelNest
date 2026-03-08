@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -53,10 +55,10 @@ class _HomeState extends State<Home> {
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Color(0xFFbfd4e7),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Icon(Icons.add, color: Colors.blue, size: 30),
+                          child: Icon(Icons.add, color: Colors.black, size: 30),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -134,7 +136,7 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height: 40),
             Container(
-              margin: EdgeInsets.only(left: 40, right: 30),
+              margin: EdgeInsets.only(left: 30, right: 30),
               child: Material(
                 elevation: 3.0,
                 borderRadius: BorderRadius.circular(20),
@@ -217,10 +219,11 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Icon(
                               Icons.favorite_outline,
@@ -256,7 +259,7 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),
