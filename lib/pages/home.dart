@@ -13,6 +13,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   Map<String, String>? _userData;
+  Set<String> _favorites = {};
 
   @override
   void initState() {
@@ -811,13 +812,44 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             Positioned(
               top: 10,
               right: 10,
-              child: Container(
-                padding: EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (_favorites.contains(title)) {
+                      _favorites.remove(title);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Removed from favorites'),
+                          backgroundColor: Colors.grey,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    } else {
+                      _favorites.add(title);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Added to favorites!'),
+                          backgroundColor: Colors.red,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    }
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Icon(
+                    _favorites.contains(title)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: _favorites.contains(title) ? Colors.red : Colors.red,
+                    size: 18,
+                  ),
                 ),
-                child: Icon(Icons.favorite_border, color: Colors.red, size: 18),
               ),
             ),
             Positioned(
@@ -863,6 +895,88 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Booking feature coming soon!'),
+                                backgroundColor: Color(0xFF667EEA),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF667EEA),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              'Book Now',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (_favorites.contains(title)) {
+                                _favorites.remove(title);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Removed from saved'),
+                                    backgroundColor: Colors.grey,
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                _favorites.add(title);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Saved for later!'),
+                                    backgroundColor: Colors.green,
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              }
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              _favorites.contains(title) ? 'Saved' : 'Save',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: _favorites.contains(title)
+                                    ? Colors.green
+                                    : Colors.black87,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -1048,20 +1162,40 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildInteractionButton(IconData icon, String count) {
-    return Row(
-      children: [
-        Icon(icon, color: Colors.grey[600], size: 20),
-        SizedBox(width: 6),
-        Text(
-          count,
-          style: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Poppins',
+    return GestureDetector(
+      onTap: () {
+        String message = '';
+        if (icon == Icons.favorite_outline) {
+          message = 'Liked this post!';
+        } else if (icon == Icons.comment_outlined) {
+          message = 'Comments feature coming soon!';
+        } else if (icon == Icons.share_outlined) {
+          message = 'Share feature coming soon!';
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Color(0xFF667EEA),
+            duration: Duration(seconds: 1),
           ),
-        ),
-      ],
+        );
+      },
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.grey[600], size: 20),
+          SizedBox(width: 6),
+          Text(
+            count,
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -13,6 +13,7 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
   late Animation<double> _fadeAnimation;
   String _selectedCategory = 'All';
   final TextEditingController _searchController = TextEditingController();
+  Set<String> _favorites = {};
 
   @override
   void initState() {
@@ -32,6 +33,76 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
     _animationController.dispose();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _showFilterDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Filter Options'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Sort by:'),
+            SizedBox(height: 10),
+            ListTile(
+              title: Text('Popular'),
+              leading: Radio<String>(
+                value: 'popular',
+                groupValue: 'popular',
+                onChanged: (value) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sorted by popularity'),
+                      backgroundColor: Color(0xFF667EEA),
+                    ),
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              title: Text('Price: Low to High'),
+              leading: Radio<String>(
+                value: 'price_low',
+                groupValue: 'popular',
+                onChanged: (value) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sorted by price (low to high)'),
+                      backgroundColor: Color(0xFF667EEA),
+                    ),
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              title: Text('Price: High to Low'),
+              leading: Radio<String>(
+                value: 'price_high',
+                groupValue: 'popular',
+                onChanged: (value) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sorted by price (high to low)'),
+                      backgroundColor: Color(0xFF667EEA),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
   }
 
   final List<Map<String, dynamic>> _categories = [
@@ -232,13 +303,29 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Row(
         children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(12),
+          GestureDetector(
+            onTap: () {
+              // Refresh/explore functionality
+              setState(() {
+                _selectedCategory = 'All';
+                _searchController.clear();
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Explore refreshed!'),
+                  backgroundColor: Color(0xFF667EEA),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+            },
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(Icons.explore, color: Colors.white, size: 24),
             ),
-            child: Icon(Icons.explore, color: Colors.white, size: 24),
           ),
           Spacer(),
           Text(
@@ -251,13 +338,19 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
             ),
           ),
           Spacer(),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(12),
+          GestureDetector(
+            onTap: () {
+              // Filter functionality
+              _showFilterDialog();
+            },
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(Icons.filter_list, color: Colors.white, size: 24),
             ),
-            child: Icon(Icons.filter_list, color: Colors.white, size: 24),
           ),
         ],
       ),
@@ -524,24 +617,54 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
               Positioned(
                 top: 15,
                 right: 15,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.3),
-                          width: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    // Toggle favorite functionality
+                    setState(() {
+                      if (_favorites.contains(destination['name'])) {
+                        _favorites.remove(destination['name']);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Removed from favorites'),
+                            backgroundColor: Colors.grey,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      } else {
+                        _favorites.add(destination['name']);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Added to favorites!'),
+                            backgroundColor: Colors.red,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      }
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.25),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
                         ),
-                      ),
-                      child: Icon(
-                        Icons.favorite_border,
-                        color: Colors.white,
-                        size: 20,
+                        child: Icon(
+                          _favorites.contains(destination['name'])
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: _favorites.contains(destination['name'])
+                              ? Colors.red
+                              : Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
