@@ -33,21 +33,21 @@ class _MainNavigationState extends State<MainNavigation> {
           child: Container(
             height: 75,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withOpacity(0.7),
               border: Border.all(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withOpacity(0.15),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 30,
-                  offset: Offset(0, -10),
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 35,
+                  offset: Offset(0, -12),
                 ),
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
-                  blurRadius: 10,
-                  offset: Offset(0, -3),
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 15,
+                  offset: Offset(0, -5),
                 ),
               ],
             ),
@@ -104,8 +104,8 @@ class _MainNavigationState extends State<MainNavigation> {
             AnimatedContainer(
               duration: Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
-              width: 45,
-              height: 45,
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? LinearGradient(
@@ -115,50 +115,37 @@ class _MainNavigationState extends State<MainNavigation> {
                       )
                     : LinearGradient(
                         colors: [
-                          Colors.white.withOpacity(0.9),
-                          Colors.white.withOpacity(0.9),
+                          Colors.white.withOpacity(0.85),
+                          Colors.white.withOpacity(0.85),
                         ],
                       ),
-                borderRadius: BorderRadius.circular(22.5),
+                borderRadius: BorderRadius.circular(25),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: Color(0xFF667EEA).withOpacity(0.3),
-                          blurRadius: 15,
-                          offset: Offset(0, 6),
+                          color: Color(0xFF667EEA).withOpacity(0.4),
+                          blurRadius: 20,
+                          offset: Offset(0, 8),
                         ),
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 8,
-                          offset: Offset(0, 3),
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
                         ),
                       ]
                     : [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
-                          blurRadius: 8,
-                          offset: Offset(0, 2),
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 3),
                         ),
                       ],
               ),
               child: Icon(
                 icon,
                 color: isSelected ? Colors.white : Color(0xFF6B7280),
-                size: 22,
+                size: 26,
               ),
-            ),
-            SizedBox(height: 6),
-            // Modern text label
-            AnimatedDefaultTextStyle(
-              duration: Duration(milliseconds: 250),
-              style: TextStyle(
-                fontSize: isSelected ? 11 : 10,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: isSelected ? Color(0xFF667EEA) : Color(0xFF9CA3AF),
-                fontFamily: 'SF Pro Display',
-                letterSpacing: isSelected ? 0.3 : 0.1,
-              ),
-              child: Text(label),
             ),
           ],
         ),
