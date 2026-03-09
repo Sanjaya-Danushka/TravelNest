@@ -57,12 +57,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.3),
                 Colors.black.withOpacity(0.1),
+                Colors.black.withOpacity(0.05),
                 Colors.transparent,
                 Colors.transparent,
               ],
-              stops: [0.0, 0.2, 0.4, 1.0],
+              stops: [0.0, 0.15, 0.3, 1.0],
             ),
           ),
           child: SafeArea(
@@ -104,7 +104,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.black.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(Icons.menu, color: Colors.white, size: 24),
@@ -128,7 +128,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Container(
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.black.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
@@ -163,9 +163,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Text(
                         'Welcome back,',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withOpacity(0.95),
                           fontSize: 16,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'poppins',
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -174,7 +174,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'poppins',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -190,7 +190,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(25),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withOpacity(0.4),
                               blurRadius: 8,
                               offset: Offset(0, 4),
                             ),
@@ -239,11 +239,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.9),
               borderRadius: BorderRadius.circular(25),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withOpacity(0.15),
                   blurRadius: 20,
                   offset: Offset(0, 10),
                 ),
@@ -253,22 +253,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               decoration: InputDecoration(
                 hintText: "Search destinations...",
                 hintStyle: TextStyle(
-                  color: Colors.grey[400],
+                  color: Colors.grey[600],
                   fontSize: 16,
                   fontFamily: 'Poppins',
                 ),
                 prefixIcon: Icon(
                   Icons.search,
-                  color: Colors.grey[400],
+                  color: Colors.grey[600],
                   size: 22,
                 ),
                 suffixIcon: Container(
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Color(0xFFbfd4e7),
+                    color: Color(0xFF667EEA),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Icon(Icons.tune, color: Colors.black87, size: 20),
+                  child: Icon(Icons.tune, color: Colors.white, size: 20),
                 ),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(

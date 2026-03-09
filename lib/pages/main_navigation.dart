@@ -33,19 +33,19 @@ class _MainNavigationState extends State<MainNavigation> {
           child: Container(
             height: 75,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withOpacity(0.8),
               border: Border.all(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withOpacity(0.2),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withOpacity(0.08),
                   blurRadius: 30,
                   offset: Offset(0, -10),
                 ),
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
+                  color: Colors.black.withOpacity(0.03),
                   blurRadius: 10,
                   offset: Offset(0, -3),
                 ),
@@ -113,7 +113,12 @@ class _MainNavigationState extends State<MainNavigation> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       )
-                    : LinearGradient(colors: [Colors.white, Colors.white]),
+                    : LinearGradient(
+                        colors: [
+                          Colors.white.withOpacity(0.9),
+                          Colors.white.withOpacity(0.9),
+                        ],
+                      ),
                 borderRadius: BorderRadius.circular(22.5),
                 boxShadow: isSelected
                     ? [
@@ -123,14 +128,14 @@ class _MainNavigationState extends State<MainNavigation> {
                           offset: Offset(0, 6),
                         ),
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withOpacity(0.15),
                           blurRadius: 8,
                           offset: Offset(0, 3),
                         ),
                       ]
                     : [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withOpacity(0.08),
                           blurRadius: 8,
                           offset: Offset(0, 2),
                         ),
