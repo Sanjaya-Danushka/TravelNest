@@ -19,104 +19,143 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
+      backgroundColor: Color(0xFFFAFAFA),
       body: _pages[_currentIndex],
+      extendBody: true,
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 30,
-              offset: Offset(0, -5),
-            ),
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03),
-              blurRadius: 10,
-              offset: Offset(0, -2),
-            ),
-          ],
-        ),
+        height: 85,
+        decoration: BoxDecoration(color: Colors.transparent),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
           ),
-          child: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            backgroundColor: Colors.white,
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            selectedLabelStyle: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'SF Pro Display',
-              letterSpacing: -0.2,
+          child: Container(
+            height: 75,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.95),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 30,
+                  offset: Offset(0, -10),
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.02),
+                  blurRadius: 10,
+                  offset: Offset(0, -3),
+                ),
+              ],
             ),
-            unselectedLabelStyle: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'SF Pro Display',
-              letterSpacing: -0.2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: _buildModernNavItem(0, Icons.home_outlined, 'Home'),
+                ),
+                Expanded(
+                  child: _buildModernNavItem(
+                    1,
+                    Icons.explore_outlined,
+                    'Explore',
+                  ),
+                ),
+                Expanded(
+                  child: _buildModernNavItem(
+                    2,
+                    Icons.favorite_border,
+                    'Favorites',
+                  ),
+                ),
+                Expanded(
+                  child: _buildModernNavItem(
+                    3,
+                    Icons.person_outline,
+                    'Profile',
+                  ),
+                ),
+              ],
             ),
-            selectedItemColor: Color(0xFF007AFF),
-            unselectedItemColor: Color(0xFF8E8E93),
-            items: [
-              BottomNavigationBarItem(
-                icon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.home_outlined, size: 24),
-                ),
-                activeIcon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.home, size: 24),
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.explore_outlined, size: 24),
-                ),
-                activeIcon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.explore, size: 24),
-                ),
-                label: 'Explore',
-              ),
-              BottomNavigationBarItem(
-                icon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.favorite_border, size: 24),
-                ),
-                activeIcon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.favorite, size: 24),
-                ),
-                label: 'Favorites',
-              ),
-              BottomNavigationBarItem(
-                icon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.person_outline, size: 24),
-                ),
-                activeIcon: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Icon(Icons.person, size: 24),
-                ),
-                label: 'Profile',
-              ),
-            ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildModernNavItem(int index, IconData icon, String label) {
+    final isSelected = _currentIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      child: Container(
+        height: 75,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Modern icon container
+            AnimatedContainer(
+              duration: Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              width: 45,
+              height: 45,
+              decoration: BoxDecoration(
+                gradient: isSelected
+                    ? LinearGradient(
+                        colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : LinearGradient(colors: [Colors.white, Colors.white]),
+                borderRadius: BorderRadius.circular(22.5),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: Color(0xFF667EEA).withOpacity(0.3),
+                          blurRadius: 15,
+                          offset: Offset(0, 6),
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: Offset(0, 3),
+                        ),
+                      ]
+                    : [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 8,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+              ),
+              child: Icon(
+                icon,
+                color: isSelected ? Colors.white : Color(0xFF6B7280),
+                size: 22,
+              ),
+            ),
+            SizedBox(height: 6),
+            // Modern text label
+            AnimatedDefaultTextStyle(
+              duration: Duration(milliseconds: 250),
+              style: TextStyle(
+                fontSize: isSelected ? 11 : 10,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? Color(0xFF667EEA) : Color(0xFF9CA3AF),
+                fontFamily: 'SF Pro Display',
+                letterSpacing: isSelected ? 0.3 : 0.1,
+              ),
+              child: Text(label),
+            ),
+          ],
         ),
       ),
     );
