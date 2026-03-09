@@ -325,7 +325,7 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
           ),
         ),
         SizedBox(height: 15),
-        Container(
+        SizedBox(
           height: 50,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -702,7 +702,7 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin {
         ),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 200,
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30)),

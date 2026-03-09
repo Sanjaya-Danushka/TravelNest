@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,6 +12,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  Map<String, String>? _userData;
 
   @override
   void initState() {
@@ -33,12 +35,329 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         );
 
     _animationController.forward();
+    _loadUserData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final userData = await AuthService.getUserData();
+    setState(() {
+      _userData = userData;
+    });
   }
 
   @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  void _showMenuDrawer() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  Spacer(),
+                  Text(
+                    'Menu',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  Spacer(),
+                  SizedBox(width: 48),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  _buildMenuItem('Explore', Icons.explore, () {
+                    Navigator.pop(context);
+                    // Navigate to explore page
+                  }),
+                  _buildMenuItem('Favorites', Icons.favorite, () {
+                    Navigator.pop(context);
+                    // Navigate to favorites page
+                  }),
+                  _buildMenuItem('Profile', Icons.person, () {
+                    Navigator.pop(context);
+                    // Navigate to profile page
+                  }),
+                  _buildMenuItem('Settings', Icons.settings, () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Settings coming soon!'),
+                        backgroundColor: Color(0xFF667EEA),
+                      ),
+                    );
+                  }),
+                  _buildMenuItem('Help', Icons.help, () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Help center coming soon!'),
+                        backgroundColor: Color(0xFF667EEA),
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showNotifications() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.7,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  Spacer(),
+                  Text(
+                    'Notifications',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF667EEA),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      'Mark all read',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  _buildNotificationCard(
+                    'New destination added!',
+                    'Check out our latest addition: Bali Paradise',
+                    '2 hours ago',
+                    Icons.flight_takeoff,
+                    Colors.blue,
+                    false,
+                  ),
+                  _buildNotificationCard(
+                    'Special offer!',
+                    'Get 20% off on all beach destinations',
+                    '5 hours ago',
+                    Icons.local_offer,
+                    Colors.green,
+                    false,
+                  ),
+                  _buildNotificationCard(
+                    'Trip reminder',
+                    'Your trip to Paris starts in 3 days',
+                    '1 day ago',
+                    Icons.event,
+                    Colors.orange,
+                    true,
+                  ),
+                  _buildNotificationCard(
+                    'Review requested',
+                    'How was your trip to Tokyo?',
+                    '2 days ago',
+                    Icons.star,
+                    Colors.amber,
+                    true,
+                  ),
+                  _buildNotificationCard(
+                    'New features available',
+                    'Check out our updated search filters',
+                    '3 days ago',
+                    Icons.new_releases,
+                    Colors.purple,
+                    true,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(String title, IconData icon, VoidCallback onTap) {
+    return ListTile(
+      leading: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Color(0xFF667EEA).withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(icon, color: Color(0xFF667EEA), size: 20),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Poppins',
+        ),
+      ),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: Colors.grey[400],
+        size: 16,
+      ),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildNotificationCard(
+    String title,
+    String message,
+    String time,
+    IconData icon,
+    Color color,
+    bool isRead,
+  ) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+        color: isRead ? Colors.grey[50] : Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: isRead ? Colors.grey[200]! : Colors.grey[300]!,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: isRead
+                                ? FontWeight.normal
+                                : FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      if (!isRead)
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF667EEA),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    message,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                      fontFamily: 'Poppins',
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    time,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -100,14 +419,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               // Top navigation bar
               Row(
                 children: [
-                  // Menu icon
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(12),
+                  // Menu icon with functionality
+                  GestureDetector(
+                    onTap: () => _showMenuDrawer(),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(Icons.menu, color: Colors.white, size: 24),
                     ),
-                    child: Icon(Icons.menu, color: Colors.white, size: 24),
                   ),
                   Spacer(),
                   // App title
@@ -122,34 +444,37 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Spacer(),
-                  // Notification bell with badge
-                  Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          Icons.notifications_outlined,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                      Positioned(
-                        right: 8,
-                        top: 8,
-                        child: Container(
-                          width: 8,
-                          height: 8,
+                  // Notification bell with badge and functionality
+                  GestureDetector(
+                    onTap: () => _showNotifications(),
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.black.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            Icons.notifications_outlined,
+                            color: Colors.white,
+                            size: 24,
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          right: 8,
+                          top: 8,
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -170,7 +495,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         ),
                       ),
                       Text(
-                        'Alexa Smith',
+                        _userData?['name'] ?? 'Alexa Smith',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
@@ -304,7 +629,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 15),
-            Container(
+            SizedBox(
               height: 100,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -398,7 +723,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 15),
-            Container(
+            SizedBox(
               height: 200,
               child: ListView(
                 scrollDirection: Axis.horizontal,

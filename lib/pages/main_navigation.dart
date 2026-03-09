@@ -14,13 +14,19 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [Home(), Explore(), Favorites(), Profile()];
+  late List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [Home(), Explore(), Favorites(), Profile()];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
-      body: _pages[_currentIndex],
+      body: IndexedStack(index: _currentIndex, children: _pages),
       extendBody: true,
       bottomNavigationBar: Container(
         height: 85,
@@ -95,7 +101,7 @@ class _MainNavigationState extends State<MainNavigation> {
           _currentIndex = index;
         });
       },
-      child: Container(
+      child: SizedBox(
         height: 75,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

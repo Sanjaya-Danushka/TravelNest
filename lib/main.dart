@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel/pages/main_navigation.dart';
+import 'pages/auth_wrapper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MainNavigation(),
+      title: 'TravelNest',
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
+      home: const AuthWrapper(),
     );
   }
 }

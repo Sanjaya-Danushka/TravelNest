@@ -538,7 +538,7 @@ class _FavoritesState extends State<Favorites>
         ),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 250,
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30)),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
+import 'login.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -10,6 +12,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  Map<String, String>? _userData;
 
   @override
   void initState() {
@@ -22,6 +25,20 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
     _animationController.forward();
+    _loadUserData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final userData = await AuthService.getUserData();
+    setState(() {
+      _userData = userData;
+    });
   }
 
   @override
@@ -173,7 +190,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           ),
           SizedBox(height: 20),
           Text(
-            'Alexa Smith',
+            _userData?['name'] ?? 'Alexa Smith',
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,
@@ -192,7 +209,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           ),
           SizedBox(height: 8),
           Text(
-            'alexa.smith@email.com',
+            _userData?['email'] ?? 'alexa.smith@email.com',
             style: TextStyle(
               color: Colors.white70,
               fontSize: 14,
@@ -989,13 +1006,12 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             child: Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Signed out successfully'),
-                  backgroundColor: Colors.green,
-                ),
+              await AuthService.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => Login()),
+                (Route<dynamic> route) => false,
               );
             },
             style: ElevatedButton.styleFrom(
