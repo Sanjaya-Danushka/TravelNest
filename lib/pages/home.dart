@@ -46,28 +46,41 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF1e3c72), Color(0xFF2a5298), Colors.white],
-            stops: [0.0, 0.4, 0.4],
+          image: DecorationImage(
+            image: AssetImage("assets/images/home6.jpg"),
+            fit: BoxFit.cover,
           ),
         ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(),
-                SizedBox(height: 30),
-                _buildSearchBar(),
-                SizedBox(height: 30),
-                _buildCategories(),
-                SizedBox(height: 30),
-                _buildPopularDestinations(),
-                SizedBox(height: 30),
-                _buildFeaturedPost(),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withOpacity(0.3),
+                Colors.black.withOpacity(0.1),
+                Colors.transparent,
+                Colors.transparent,
               ],
+              stops: [0.0, 0.2, 0.4, 1.0],
+            ),
+          ),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(),
+                  SizedBox(height: 30),
+                  _buildSearchBar(),
+                  SizedBox(height: 30),
+                  _buildCategories(),
+                  SizedBox(height: 30),
+                  _buildPopularDestinations(),
+                  SizedBox(height: 30),
+                  _buildFeaturedPost(),
+                ],
+              ),
             ),
           ),
         ),
@@ -91,7 +104,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(Icons.menu, color: Colors.white, size: 24),
@@ -101,10 +114,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   Text(
                     'TravelNest',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Lato',
+                      fontFamily: 'poppins',
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -115,7 +128,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Container(
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
+                          color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
@@ -150,7 +163,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Text(
                         'Welcome back,',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withOpacity(0.9),
                           fontSize: 16,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,
@@ -177,7 +190,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(25),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withOpacity(0.3),
                               blurRadius: 8,
                               offset: Offset(0, 4),
                             ),
@@ -285,7 +298,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Colors.white,
                   fontFamily: 'Lato',
                 ),
               ),
@@ -368,7 +381,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Colors.white,
                       fontFamily: 'Lato',
                     ),
                   ),
@@ -376,7 +389,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     'See all',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Color(0xFFbfd4e7),
+                      color: Colors.white70,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Poppins',
                     ),
@@ -553,18 +566,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Colors.white,
                   fontFamily: 'Lato',
                 ),
               ),
               SizedBox(height: 15),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.white.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withOpacity(0.2),
                       blurRadius: 20,
                       offset: Offset(0, 10),
                     ),
@@ -623,6 +636,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Poppins',
+                                        color: Colors.black87,
                                       ),
                                     ),
                                     Text(
@@ -642,7 +656,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFbfd4e7),
+                                  color: Color(0xFF667EEA),
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Text(
@@ -651,6 +665,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Poppins',
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -663,6 +678,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Poppins',
+                              color: Colors.black87,
                             ),
                           ),
                           SizedBox(height: 8),
